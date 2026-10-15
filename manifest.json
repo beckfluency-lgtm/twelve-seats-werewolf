@@ -1,0 +1,41 @@
+{
+  "manifest_version": 3,
+  "name": "十二席 AI 狼人杀观战台",
+  "version": "0.2.0",
+  "minimum_chrome_version": "120",
+  "options_ui": {"page": "options.html", "open_in_tab": true},
+  "description": "通过独立聊天网页运行十二名玩家，本地主持、逐席发言、观战与存档。",
+  "permissions": [
+    "storage",
+    "tabs",
+    "scripting"
+  ],
+  "host_permissions": [
+    "https://yuanbao.tencent.com/*",
+    "https://chat.z.ai/*",
+    "https://zchat.z.ai/*",
+    "https://chat.deepseek.com/*",
+    "https://www.kimi.com/*",
+    "https://kimi.com/*",
+    "https://www.doubao.com/*",
+    "https://www.qianwen.com/*",
+    "https://claude.ai/*",
+    "https://gemini.google.com/*",
+    "https://chat.mistral.ai/*",
+    "https://grok.com/*",
+    "https://chatgpt.com/*",
+    "https://chat.stepfun.com/*",
+    "https://chatglm.cn/*",
+    "https://xinghuo.xfyun.cn/*",
+    "https://chat.qwen.ai/*",
+    "https://www.perplexity.ai/*",
+    "https://perplexity.ai/*",
+    "https://poe.com/*"
+  ],
+  "action": {
+    "default_title": "打开狼人杀观战台"
+  },
+  "background": {
+    "service_worker": "background.js"
+  }
+}

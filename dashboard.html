@@ -1,0 +1,16 @@
+<!doctype html>
+<html lang="zh-CN"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>十二席观战台</title><link rel="stylesheet" href="style.css"></head>
+<body>
+<header><div><span class="eyebrow">WEREWOLF · 12 SEATS</span><h1>十二席观战台</h1></div></header>
+<div id="activity" class="status-bar" role="status" aria-live="polite"><span id="status" class="badge">尚未开局</span><span id="notice">就绪</span><div id="waitActions" class="toolbar" hidden><button id="skipWaiting">跳过本次等待</button></div><div id="errorPanel" class="error-panel" role="alert" hidden><div class="toolbar"><button id="openErrorSeat">打开异常玩家对话</button><button id="resendError">重新发送</button><button id="skipError">跳过一次</button></div></div></div>
+<main>
+
+<section class="panel"><div class="heading"><h2>牌桌</h2><label><input type="checkbox" id="reveal" checked> 上帝视角</label></div><div id="table" class="seats"></div>
+<div class="toolbar"><label>板子 <select id="board" aria-label="对局板子"></select></label><button id="newGame">准备新局</button><button id="step">执行一步</button><button id="run" class="primary">开始</button><button id="pause" disabled>结束</button><button id="export">导出存档</button><label class="file-button">读取存档<input id="import" type="file" accept="application/json"></label></div>
+<details><summary>本局规则</summary><p id="rules"></p></details></section>
+<section class="panel review-panel"><div class="review-columns"><section class="review-column"><div class="heading"><h2>发言</h2><button id="toggleActions" class="small-button" aria-controls="actionColumn" aria-expanded="false">显示行动</button></div><div id="log" class="log" aria-label="发言与公开行动"></div></section><section id="actionColumn" class="review-column" hidden><h2>行动</h2><div id="actionLog" class="log" aria-label="上帝视角行动记录"></div></section></div></section>
+<section class="panel wide"><h2>玩家与独立对话</h2><div class="toolbar"><button id="openPlatforms">打开平台网页登录</button><button id="refreshTabs">刷新已打开网页</button></div><div id="bindings"></div></section>
+<section class="panel wide"><h2>更换AI</h2><div class="toolbar"><label>座位 <input id="replacement-seat" type="number" min="1" max="12" value="1" aria-label="更换席位"></label><label>平台 <select id="replacement-provider" aria-label="新玩家平台"></select></label><input id="replacement-url" class="replacement-url" placeholder="粘贴新AI独立聊天的完整网址" aria-label="新玩家独立聊天地址"><button id="replaceSeat" class="primary">更换AI</button><button id="openReplacement">打开网址</button></div></section>
+
+</main><script type="module" src="dashboard.js"></script>
+</body></html>

@@ -1,0 +1,29 @@
+name: 运行异常
+description: 报告平台适配或游戏流程问题
+body:
+  - type: input
+    id: version
+    attributes:
+      label: 扩展版本与浏览器版本
+    validations:
+      required: true
+  - type: input
+    id: platform
+    attributes:
+      label: AI平台
+      description: 仅填写平台名，不粘贴真实聊天网址。
+  - type: textarea
+    id: steps
+    attributes:
+      label: 复现步骤与状态栏文字
+      description: 请删除账号、身份、行动编号及私人对局记录。
+    validations:
+      required: true
+  - type: dropdown
+    id: visibility
+    attributes:
+      label: 出现问题时页面状态
+      options:
+        - AI页面在后台
+        - AI页面在前台
+        - 不确定

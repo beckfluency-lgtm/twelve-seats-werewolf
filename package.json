@@ -1,0 +1,14 @@
+{
+  "name": "twelve-seats-werewolf",
+  "version": "0.2.0",
+  "description": "A local twelve-player AI werewolf referee using independent chat websites, without model APIs.",
+  "type": "module",
+  "private": true,
+  "license": "MIT",
+  "engines": {"node": ">=22"},
+  "scripts": {
+    "test": "node --test tests/*.test.js",
+    "check": "node scripts/check-release.mjs",
+    "build": "node scripts/build-release.mjs"
+  }
+}

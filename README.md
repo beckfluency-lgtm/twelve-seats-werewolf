@@ -56,4 +56,3 @@ npm run build
 构建产物位于 `dist/`，包括可加载的扩展ZIP和SHA-256校验文件。源码仓库可直接作为解压缩扩展加载，不需要先构建。
 
 新增适配、规则修改和发布流程见 [CONTRIBUTING.md](CONTRIBUTING.md)。项目使用 [MIT License](LICENSE)。本项目不隶属于各AI平台，也不提供账号、订阅或绕过平台验证的能力。
-

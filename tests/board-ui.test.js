@@ -1,0 +1,22 @@
+import {test} from 'node:test';
+import assert from 'node:assert/strict';
+import {readFile} from 'node:fs/promises';
+import vm from 'node:vm';
+import * as core from '../core.js';
+test('board selector saves choice, locks current rules, and new-game preparation preserves AI bindings',async()=>{
+  const html=await readFile(new URL('../dashboard.html',import.meta.url),'utf8'),nodes=new Map();
+  const node=tag=>({tag,value:'',children:[],append(...n){this.children.push(...n)},replaceChildren(...n){this.children=[...n]},add(n){this.children.push(n)}});
+  for(const match of html.matchAll(/<([a-z]+)\b[^>]*\bid="([^"]+)"/g))nodes.set(match[2],node(match[1]));
+  const document={getElementById:id=>nodes.get(id)||null,createElement:node,querySelectorAll:()=>[]};
+  const seats=core.defaultSeats().map(s=>({...s,url:new URL('/conversation/seat-'+s.id,core.PROVIDERS[s.provider].home).href}));
+  const adapters=Object.fromEntries(Object.keys(core.PROVIDERS).map(id=>[id,{input:'.input',reply:'.reply',send:'.send',tested:true}]));
+  const state={seats,adapters,settings:{timeout:240,background:true},game:null};let saved,archive;
+  const context=vm.createContext({...core,console,document,URL,structuredClone,setTimeout,Option:class{},chrome:{storage:{local:{get:async()=>({werewolf:state}),set:async o=>{if(o.werewolf)saved=o.werewolf;if(o.werewolfPreviousSession)archive=o.werewolfPreviousSession}}},tabs:{query:async()=>[]}}});
+  vm.runInContext((await readFile(new URL('../dashboard.js',import.meta.url),'utf8')).replace(/^import .*;\r?\n/gm,''),context);await new Promise(resolve=>setImmediate(resolve));
+  assert.equal(nodes.get('board').value,'standard');assert.equal(nodes.get('board').disabled,false);assert.equal(nodes.get('board').children.length,3);
+  nodes.get('board').value='whiteWolf';await nodes.get('board').onchange();assert.equal(saved.settings.boardId,'whiteWolf');
+  await context.createGame();assert.equal(state.game.boardId,'whiteWolf');assert.equal(state.game.players.filter(p=>p.role==='白狼王').length,1);assert.equal(nodes.get('board').disabled,true);assert.match(nodes.get('rules').textContent,/白狼王守卫/);
+  nodes.get('board').value='wolfKing';await nodes.get('board').onchange();assert.equal(state.game.boardId,'whiteWolf');
+  const bindings=structuredClone(seats);await nodes.get('newGame').onclick();assert.equal(state.game,null);assert.deepEqual(JSON.parse(JSON.stringify(state.seats)),bindings);assert.equal(archive.state.game.boardId,'whiteWolf');assert.equal(nodes.get('board').value,'whiteWolf');assert.equal(nodes.get('board').disabled,false);
+  const old=core.newGame(seats);state.game=old;vm.runInContext('render()',context);assert.equal(nodes.get('board').value,'legacy');assert.match(nodes.get('rules').textContent,/无警长，无遗言/);assert.equal(state.game.rulesVersion,undefined);
+});
